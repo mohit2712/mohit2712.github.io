@@ -1,17 +1,11 @@
 <?php
     function post_captcha($user_response) {
 		
-		// reCaptcha info
 		$secret = "6LdaLSQUAAAAAGh3m1SX_okY-uBT_vetN4qQshNH";
-		$remoteip = $_SERVER["REMOTE_ADDR"];
+		//$remoteip = $_SERVER["REMOTE_ADDR"];
 		$url = "https://www.google.com/recaptcha/api/siteverify";
-		
-		// Form info
-		$first = $_POST["field"];
+		print_r($_POST["g-recaptcha-response"]);
 		$response = $_POST["g-recaptcha-response"];
-print_r($_SERVER["REMOTE_ADDR"]);
-
-
 		// Curl Request
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $url);
@@ -20,15 +14,13 @@ print_r($_SERVER["REMOTE_ADDR"]);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, array(
 			'secret' => $secret,
 			'response' => $response,
-			'remoteip' => $remoteip
+			//'remoteip' => $remoteip
 			));
 		$curlData = curl_exec($curl);
 		curl_close($curl);
-		
-		print_r($curl);
-		echo '<br/>';
-		
         return json_decode($curlData, true);
+		
+		
     }
 
     // Call the function post_captcha
